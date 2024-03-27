@@ -1,6 +1,7 @@
 version: "3.8"
 services:
   db:
+    container_name: db
     image: mysql:8.0.27
     env_file:
       - .env
@@ -10,6 +11,7 @@ services:
       - mysql_data:/var/lib/mysql
 
   backend:
+    container_name: backend
     build:
       context: ./back/
       dockerfile: Dockerfile
@@ -23,6 +25,7 @@ services:
     stdin_open: true
 
   frontend:
+    container_name: frontend
     build:
       context: ./front/
       dockerfile: Dockerfile
@@ -33,4 +36,5 @@ services:
     tty: true
     stdin_open: true
 volumes:
-  mysql_data:
+  db-data:
+    driver: local
