@@ -3,7 +3,7 @@
 
 # 使用技術
 - フロントエンド　：　React Typescript
-- バックエンド　　　：　Go
-- インフラ　　　　　　　　：　docker
-- DB　　　　　　　　　　　　　　　：　mysql
+- バックエンド　：　Go
+- インフラ　　：　docker
+- DB　　：　mysql
 
