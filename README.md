@@ -1,9 +1,8 @@
 # 概要
 簡単なタスク管理ツール
+クリーンアーキテクチャの学習も兼ねてます
 
 # 使用技術
-- フロントエンド　：　React Typescript
-- バックエンド　：　Go
-- インフラ　　：　docker
-- DB　　：　mysql
+React Typescript　Go（echo） docker mysql
+
 
