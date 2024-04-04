@@ -19,19 +19,24 @@ type userController struct {
 	uu usecase.UserUsecaseInterface
 }
 
+// コンストラクタ,main.goから呼び出される
 func NewUserController(uu usecase.UserUsecaseInterface) UserControllerInterface {
 	return &userController{uu}
 }
 
 func (uc *userController) SignUp(c echo.Context) error {
+	//ゼロ値のUser構造体を定義
 	user := model.User{}
+	//routerから渡された値を、ゼロ値のUser構造体にバインド
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
+	//user_usecaseのSignUpメソッドの呼び出し
 	userRes, err := uc.uu.SignUp(user)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
+	//返却されたuserResponse構造体をreturn
 	return c.JSON(http.StatusCreated, userRes)
 
 }
@@ -41,10 +46,12 @@ func (uc *userController) Login(c echo.Context) error {
 	if err := c.Bind(&user); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
+	//user_usecaseのLoginメソッドの呼び出し、jwtトークンが返却される
 	tokenString, err := uc.uu.Login(user)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
+	//クッキーセット
 	cookie := new(http.Cookie)
 	cookie.Name = "token"
 	cookie.Value = tokenString
@@ -59,6 +66,7 @@ func (uc *userController) Login(c echo.Context) error {
 }
 
 func (uc *userController) Logout(c echo.Context) error {
+	//クッキー初期化
 	cookie := new(http.Cookie)
 	cookie.Name = "token"
 	cookie.Value = ""
