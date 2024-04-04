@@ -5,7 +5,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// ルートのコンストラクタ
 func NewRouter(uc controller.UserControllerInterface) *echo.Echo {
+	//パスに対してuser_controllerのメソッドを割り当てる
 	e := echo.New()
 	e.POST("/signup", uc.SignUp)
 	e.POST("/login", uc.Login)
