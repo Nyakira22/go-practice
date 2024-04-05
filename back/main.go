@@ -1,15 +1,21 @@
 package main
 
 import (
+	"log"
+
+	"github.com/akiradomi/workspace/go-practice/back/config"
 	"github.com/akiradomi/workspace/go-practice/back/controller"
 	"github.com/akiradomi/workspace/go-practice/back/db"
 	"github.com/akiradomi/workspace/go-practice/back/repository"
 	"github.com/akiradomi/workspace/go-practice/back/router"
 	"github.com/akiradomi/workspace/go-practice/back/usecase"
+	"github.com/akiradomi/workspace/go-practice/back/utils"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
+	utils.LoggingSettings(config.Config.Logging)
+	log.Println("log test")
 	//DBインスタンス
 	db := db.NewDB()
 	//user_repositoryのインスタンス化

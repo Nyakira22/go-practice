@@ -8,7 +8,7 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/labstack/echo/v4 v4.11.4
 	golang.org/x/crypto v0.17.0
-	gorm.io/gorm v1.25.9
+	gopkg.in/ini.v1 v1.67.0
 )
 
 require (
