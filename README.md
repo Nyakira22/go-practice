@@ -5,4 +5,6 @@
 # 使用技術
 React Typescript　Go（echo） docker mysql
 
-
+# 起動方法
+docker exec -it backend bash
+go run main.go
