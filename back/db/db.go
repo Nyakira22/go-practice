@@ -5,7 +5,8 @@ import (
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func NewDB() *gorm.DB {
@@ -16,13 +17,13 @@ func NewDB() *gorm.DB {
 	// 	}
 	// }
 
-	DBMS := "mysql"
 	USER := "root"
 	PASS := "root_password"
-	PROTOCOL := "tcp(0.0.0.0:3306)"
+	PROTOCOL := "tcp(db)"
 	DBNAME := "test"
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8&parseTime=true&loc=Asia%2FTokyo"
-	db, err := gorm.Open(DBMS, CONNECT)
+	fmt.Println(CONNECT)
+	db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -31,7 +32,7 @@ func NewDB() *gorm.DB {
 }
 
 func CloseDB(db *gorm.DB) {
-	sqlDB := db.DB()
+	sqlDB, _ := db.DB()
 	if err := sqlDB.Close(); err != nil {
 		log.Fatalln(err)
 	}

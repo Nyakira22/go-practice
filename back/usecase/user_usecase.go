@@ -58,7 +58,7 @@ func (uu *userUsecase) Login(user model.User) (string, error) {
 		"exp":     time.Now().Add(time.Hour * 6).Unix(),
 	})
 	//トークンに署名を付与
-	tokenString, err := token.SignedString([]byte("myfirstgoproject"))
+	tokenString, err := token.SignedString([]byte("mygoproject"))
 	if err != nil {
 		return "", err
 	}

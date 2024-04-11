@@ -1,8 +1,6 @@
 package main
 
 import (
-	"log"
-
 	"github.com/akiradomi/workspace/go-practice/back/config"
 	"github.com/akiradomi/workspace/go-practice/back/controller"
 	"github.com/akiradomi/workspace/go-practice/back/db"
@@ -14,17 +12,20 @@ import (
 )
 
 func main() {
+	//ログ設定
 	utils.LoggingSettings(config.Config.Logging)
-	log.Println("log test")
 	//DBインスタンス
 	db := db.NewDB()
 	//user_repositoryのインスタンス化
 	userRepository := repository.NewUserRepository(db)
+	taskRepository := repository.NewTaskRepository(db)
 	//user_usecaseのインスタンス化
 	userUsecase := usecase.NewUserUsecase(userRepository)
+	tasskUsecase := usecase.NewTaskUsecase(taskRepository)
 	//user_controllerのインスタンス化
 	userController := controller.NewUserController(userUsecase)
+	taskController := controller.NewTaskController(tasskUsecase)
 	//routerのインスタンス化
-	e := router.NewRouter(userController)
-	e.Logger.Fatal(e.Start(":8000"))
+	e := router.NewRouter(userController, taskController)
+	e.Logger.Fatal(e.Start(":8080"))
 }
