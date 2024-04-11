@@ -6,5 +6,6 @@
 React Typescript　Go（echo） docker mysql
 
 # 起動方法
-docker exec -it backend bash
-go run main.go
+1.docker compose up -d --build
+2.docker exec -it backend bash
+3.go run main.go
