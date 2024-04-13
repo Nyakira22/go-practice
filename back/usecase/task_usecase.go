@@ -3,6 +3,7 @@ package usecase
 import (
 	"github.com/akiradomi/workspace/go-practice/back/model"
 	"github.com/akiradomi/workspace/go-practice/back/repository"
+	"github.com/akiradomi/workspace/go-practice/back/validator"
 )
 
 type TaskUsecaseInterface interface {
@@ -15,10 +16,11 @@ type TaskUsecaseInterface interface {
 
 type taskUsecase struct {
 	tr repository.TaskRepositoryInterface
+	tv validator.TaskValidatorInterface
 }
 
-func NewTaskUsecase(tr repository.TaskRepositoryInterface) TaskUsecaseInterface {
-	return &taskUsecase{tr}
+func NewTaskUsecase(tr repository.TaskRepositoryInterface, tv validator.TaskValidatorInterface) TaskUsecaseInterface {
+	return &taskUsecase{tr, tv}
 }
 
 func (tu *taskUsecase) GetAllTasks(userId uint) ([]model.TaskResponse, error) {
@@ -40,6 +42,10 @@ func (tu *taskUsecase) GetAllTasks(userId uint) ([]model.TaskResponse, error) {
 }
 
 func (tu *taskUsecase) CreateTask(task model.Task) (model.TaskResponse, error) {
+	//validation
+	if err := tu.tv.TaskValidate(task); err != nil {
+		return model.TaskResponse{}, err
+	}
 	if err := tu.tr.CreateTask(&task); err != nil {
 		return model.TaskResponse{}, err
 	}
@@ -55,6 +61,11 @@ func (tu *taskUsecase) CreateTask(task model.Task) (model.TaskResponse, error) {
 }
 
 func (tu *taskUsecase) UpdateTask(task model.Task, userId uint, taskId uint) (model.TaskResponse, error) {
+	//validation
+	if err := tu.tv.TaskValidate(task); err != nil {
+		return model.TaskResponse{}, err
+	}
+
 	if err := tu.tr.UpdateTask(&task, userId, taskId); err != nil {
 		return model.TaskResponse{}, err
 	}

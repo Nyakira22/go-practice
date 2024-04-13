@@ -5,6 +5,7 @@ import (
 
 	"github.com/akiradomi/workspace/go-practice/back/model"
 	"github.com/akiradomi/workspace/go-practice/back/repository"
+	"github.com/akiradomi/workspace/go-practice/back/validator"
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -16,14 +17,18 @@ type UserUsecaseInterface interface {
 
 type userUsecase struct {
 	ur repository.UserRepositoryInterFace
+	uv validator.UserValidatorInterface
 }
 
 // コンストラクタ,main.goから呼び出される
-func NewUserUsecase(ur repository.UserRepositoryInterFace) UserUsecaseInterface {
-	return &userUsecase{ur}
+func NewUserUsecase(ur repository.UserRepositoryInterFace, uv validator.UserValidatorInterface) UserUsecaseInterface {
+	return &userUsecase{ur, uv}
 }
 
 func (uu *userUsecase) SignUp(user model.User) (model.UserResponse, error) {
+	if err := uu.uv.UserValidate(user); err != nil {
+		return model.UserResponse{}, err
+	}
 	//userが入力したpasswordをハッシュ化する
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
 	if err != nil {
@@ -42,6 +47,9 @@ func (uu *userUsecase) SignUp(user model.User) (model.UserResponse, error) {
 }
 
 func (uu *userUsecase) Login(user model.User) (string, error) {
+	if err := uu.uv.UserValidate(user); err != nil {
+		return "", err
+	}
 	storedUser := model.User{}
 	//入力されたemailのユーザーがいるかチェック
 	if err := uu.ur.GetUserByEmail(&storedUser, user.Email); err != nil {
