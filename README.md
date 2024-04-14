@@ -4,7 +4,7 @@
 
 # 使用技術
 React  
-Typescript　Go（echo）  
+Typescript　 Go（echo）  
 docker  
 mysql
 
