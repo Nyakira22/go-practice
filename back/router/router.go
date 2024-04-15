@@ -2,7 +2,6 @@ package router
 
 import (
 	"net/http"
-	"os"
 
 	"github.com/akiradomi/workspace/go-practice/back/controller"
 	echojwt "github.com/labstack/echo-jwt/v4"
@@ -15,7 +14,7 @@ func NewRouter(uc controller.UserControllerInterface, tc controller.TaskControll
 	//パスに対してuser_controllerのメソッドを割り当てる
 	e := echo.New()
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{os.Getenv("FE_URL")},
+		AllowOrigins:     []string{"http://localhost:3000"},
 		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAccessControlAllowHeaders, echo.HeaderXCSRFToken},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowCredentials: true,

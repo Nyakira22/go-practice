@@ -1,35 +1,32 @@
 import React from 'react';
-import { useState,useEffect } from 'react';
 import axios from "axios";
-import logo from './logo.svg';
-import './App.css';
-
-type Fruit = {
-	id: number;
-	name: string;
-	icon: string;
-}
+import { useState,useEffect } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Auth } from './components/Auth'
+import { Todo } from './components/Todo'
+import { CsrfToken } from './types'
 
 function App() {
-	const [fruits, setFruits] = useState<Fruit[]>([{ id: 0, name: "", icon: "" }])
 	useEffect(() => {
-		(
-			async () => {
-				const data = await axios.get("http://localhost:8080")
-				setFruits(data.data)
-			}
-		)()
-	}, [])
-	return (
-	<div>
-	{fruits.map(fruit => (
-		<p key={fruit.id}>
-			<span>{fruit.name}</span>
-			<span>{fruit.icon}</span>
-		</p>
-	))}
-    </div>
+		console.log("start");
 
+		axios.defaults.withCredentials = true
+		const getCsrfToken = async() => {
+			const { data } = await axios.get<CsrfToken>(
+				'http://localhost:8080/csrf'
+			)
+			console.log(1);
+			axios.defaults.headers.common['X-CSRF-TOKEN'] = data.csrf_token
+		}
+		getCsrfToken()
+	})
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<Auth />} />
+				<Route path="todo" element={<Todo />} />
+			</Routes>
+		</BrowserRouter>
 	);
 }
 
