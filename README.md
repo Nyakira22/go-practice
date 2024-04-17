@@ -12,3 +12,5 @@ mysql
 1.docker compose up -d --build  
 2.docker exec -it backend bash  
 3.go run main.go  
+4.docker exec -it frontend bash  
+5.npm start
