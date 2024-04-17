@@ -8,14 +8,11 @@ import { CsrfToken } from './types'
 
 function App() {
 	useEffect(() => {
-		console.log("start");
-
 		axios.defaults.withCredentials = true
 		const getCsrfToken = async() => {
 			const { data } = await axios.get<CsrfToken>(
 				'http://localhost:8080/csrf'
 			)
-			console.log(1);
 			axios.defaults.headers.common['X-CSRF-TOKEN'] = data.csrf_token
 		}
 		getCsrfToken()
