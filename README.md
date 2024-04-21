@@ -3,8 +3,9 @@
 クリーンアーキテクチャ
 
 # 使用技術
-React  18.2.0
-Typescript 4.9.5  Go 1.21.5  
+Go 1.21.5  
+React 18.2.0  
+Typescript 4.9.5  
 docker  
 mysql 8.0.27
 
