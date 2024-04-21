@@ -14,5 +14,5 @@ mysql 8.0.27
 2.docker exec -it backend bash  
 3.go run main.go  
 4.docker exec -it frontend bash  
-5.npm start
+5.npm start  
 6.http://localhost:3000
