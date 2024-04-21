@@ -3,10 +3,10 @@
 クリーンアーキテクチャ
 
 # 使用技術
-React  
-Typescript　 Go  
+React  18.2.0
+Typescript 4.9.5  Go 1.21.5  
 docker  
-mysql
+mysql 8.0.27
 
 # 起動方法
 1.docker compose up -d --build  
